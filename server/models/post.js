@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var Post = mongoose.model('Post', {
+const Post = mongoose.model('Post', {
     title: {
         type: String,
         trim: true,
@@ -9,6 +9,10 @@ var Post = mongoose.model('Post', {
     content: {
         type: String,
         required: true
+    },
+    categoryId: {
+        type: Number,
+        default: 0
     },
     author: {
         type: String,
