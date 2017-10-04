@@ -1,43 +1,16 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-
-var mongoose = require('./db/mongoose');
-var Post = require('./models/post');
-
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 const port = process.env.PORT || 3000;
+const postRoutes = require('./routes/post-routes');
+const categoryRoutes = require('./routes/category-routes')
+
 app.use(bodyParser.json());
+app.use('/', [
+    postRoutes,
+    categoryRoutes
+]);
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
-});
-
-app.post('/posts', (req, res) => {
-    var post = new Post({
-        title: req.body.title,
-        content: req.body.content
-    });
-
-    post.save().then((doc) => {
-        res.send(doc);
-    }, (e) => {
-        res.status(400).send(e);
-    });
-});
-
-app.get('/posts', (req, res) => {
-    Post.find().then((posts) => {
-        res.send({ posts });
-    }, (e) => {
-        res.status(400).send(e);
-    });
-});
-
-app.get('/posts/:id', (req, res) => {
-    var id = req.params.id;
-    Post.findById(id).then((post) => {
-        res.send({ post });
-    })
-}, (e) => {
-    res.status(404).send(e);
 });
