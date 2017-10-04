@@ -19,8 +19,8 @@ const Post = mongoose.model('Post', {
         default: 'Tomislav Eric'
     },
     date: {
-        type: Date,
-        default: Date.now()
+        type: Number,
+        default: new Date().getTime()
     }
 });
 
