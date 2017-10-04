@@ -32,3 +32,12 @@ app.get('/posts', (req, res) => {
         res.status(400).send(e);
     });
 });
+
+app.get('/posts/:id', (req, res) => {
+    var id = req.params.id;
+    Post.findById(id).then((post) => {
+        res.send({ post });
+    })
+}, (e) => {
+    res.status(404).send(e);
+});
