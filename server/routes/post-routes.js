@@ -1,5 +1,6 @@
 const postRoutes = require('express').Router();
 const Post = require('.././models/post');
+const _ = require('lodash');
 const mongoose = require('.././db/mongoose');
 
 postRoutes.post('/posts', (req, res) => {
@@ -15,8 +16,12 @@ postRoutes.post('/posts', (req, res) => {
     });
 });
 
-postRoutes.get('/', (req, res) => {
-    res.status(200).json({ message: 'Connected!' });
+postRoutes.put('/posts/:id', (req, res) => {
+    Post.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }).then((post) => {
+        res.send({ post });
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
 });
 
 postRoutes.get('/posts', (req, res) => {
